@@ -16,6 +16,11 @@ export interface SchoolSettings {
   school_name: string | null
   principal_name: string | null
   principal_nppy: string | null
+  letter_number: string | null
+  letter_subject: string | null
+  school_year: string | null
+  city: string | null
+  decision_date: string | null
   logo_url: string | null
   letterhead_url: string | null
   principal_signature_url: string | null

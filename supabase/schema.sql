@@ -20,6 +20,11 @@ CREATE TABLE school_settings (
   school_name VARCHAR(255),
   principal_name VARCHAR(255),
   principal_nppy VARCHAR(50),
+  letter_number VARCHAR(100),
+  letter_subject TEXT,
+  school_year VARCHAR(20),
+  city VARCHAR(100),
+  decision_date VARCHAR(50),
   logo_url TEXT,
   letterhead_url TEXT,
   principal_signature_url TEXT,
@@ -31,6 +36,11 @@ CREATE TABLE school_settings (
 -- Jika tabel sudah ada, tambahkan kolom baru:
 -- ALTER TABLE school_settings ADD COLUMN IF NOT EXISTS principal_name VARCHAR(255);
 -- ALTER TABLE school_settings ADD COLUMN IF NOT EXISTS principal_nppy VARCHAR(50);
+-- ALTER TABLE school_settings ADD COLUMN IF NOT EXISTS letter_number VARCHAR(100);
+-- ALTER TABLE school_settings ADD COLUMN IF NOT EXISTS letter_subject TEXT;
+-- ALTER TABLE school_settings ADD COLUMN IF NOT EXISTS school_year VARCHAR(20);
+-- ALTER TABLE school_settings ADD COLUMN IF NOT EXISTS city VARCHAR(100);
+-- ALTER TABLE school_settings ADD COLUMN IF NOT EXISTS decision_date VARCHAR(50);
 
 INSERT INTO school_settings (id) VALUES (1) ON CONFLICT DO NOTHING;
 

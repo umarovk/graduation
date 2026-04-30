@@ -5,11 +5,24 @@ body {
 }
 
 @media print {
+  @page {
+    size: A4;
+    margin: 1.5cm 2cm;
+  }
+
   .no-print {
     display: none !important;
   }
+
   body {
+    background: white !important;
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
+  }
+
+  #certificate {
+    box-shadow: none !important;
+    max-width: 100% !important;
+    margin: 0 !important;
   }
 }

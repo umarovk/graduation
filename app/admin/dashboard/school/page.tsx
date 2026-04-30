@@ -17,6 +17,11 @@ export default function SchoolPage() {
   const [schoolName, setSchoolName] = useState('')
   const [principalName, setPrincipalName] = useState('')
   const [principalNppy, setPrincipalNppy] = useState('')
+  const [letterNumber, setLetterNumber] = useState('')
+  const [letterSubject, setLetterSubject] = useState('')
+  const [schoolYear, setSchoolYear] = useState('')
+  const [city, setCity] = useState('')
+  const [decisionDate, setDecisionDate] = useState('')
   const [letterContent, setLetterContent] = useState('')
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState<UploadField | null>(null)
@@ -37,6 +42,11 @@ export default function SchoolPage() {
         setSchoolName(data.settings.school_name || '')
         setPrincipalName(data.settings.principal_name || '')
         setPrincipalNppy(data.settings.principal_nppy || '')
+        setLetterNumber(data.settings.letter_number || '')
+        setLetterSubject(data.settings.letter_subject || '')
+        setSchoolYear(data.settings.school_year || '')
+        setCity(data.settings.city || '')
+        setDecisionDate(data.settings.decision_date || '')
         setLetterContent(data.settings.letter_content || '')
       }
     })
@@ -47,7 +57,17 @@ export default function SchoolPage() {
     const res = await fetch('/api/admin/school', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ school_name: schoolName, principal_name: principalName, principal_nppy: principalNppy, letter_content: letterContent }),
+      body: JSON.stringify({
+        school_name: schoolName,
+        principal_name: principalName,
+        principal_nppy: principalNppy,
+        letter_number: letterNumber,
+        letter_subject: letterSubject,
+        school_year: schoolYear,
+        city,
+        decision_date: decisionDate,
+        letter_content: letterContent,
+      }),
     })
     if (res.ok) showToast('Data sekolah disimpan')
     setSaving(false)
@@ -104,7 +124,66 @@ export default function SchoolPage() {
               type="text"
               value={principalNppy}
               onChange={e => setPrincipalNppy(e.target.value)}
-              placeholder="Contoh: 196805121994031005"
+              placeholder="Contoh: 20080714181"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Detail Surat */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6 mb-4">
+        <h2 className="text-sm font-semibold text-gray-700 mb-4">Detail Surat Keputusan</h2>
+        <div className="space-y-3">
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Nomor Surat</label>
+            <input
+              type="text"
+              value={letterNumber}
+              onChange={e => setLetterNumber(e.target.value)}
+              placeholder="Contoh: 131./D.8/smk.c/wnd/V/2026"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Perihal / Tentang</label>
+            <input
+              type="text"
+              value={letterSubject}
+              onChange={e => setLetterSubject(e.target.value)}
+              placeholder="Contoh: Kelulusan Peserta Didik Kelas XII SMKS Cokroaminoto Wanadadi"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Tahun Ajaran</label>
+              <input
+                type="text"
+                value={schoolYear}
+                onChange={e => setSchoolYear(e.target.value)}
+                placeholder="Contoh: 2025/2026"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Kota Penetapan</label>
+              <input
+                type="text"
+                value={city}
+                onChange={e => setCity(e.target.value)}
+                placeholder="Contoh: Wanadadi"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Tanggal Penetapan</label>
+            <input
+              type="text"
+              value={decisionDate}
+              onChange={e => setDecisionDate(e.target.value)}
+              placeholder="Contoh: 4 Mei 2026"
               className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -163,19 +242,22 @@ export default function SchoolPage() {
 
       {/* Isi surat */}
       <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-        <h2 className="text-sm font-semibold text-gray-700 mb-1">Isi Surat Keterangan</h2>
+        <h2 className="text-sm font-semibold text-gray-700 mb-1">Isi Surat (Menimbang / Mengingat / Memperhatikan)</h2>
+        <p className="text-xs text-gray-400 mb-1">
+          Bagian ini tampil sebelum <strong>MEMUTUSKAN</strong>. Data siswa diisi otomatis oleh sistem.
+        </p>
         <p className="text-xs text-gray-400 mb-3">
-          Variabel yang tersedia:{' '}
-          {['{nama_siswa}', '{nisn}', '{kelas}', '{status}', '{nama_sekolah}', '{nama_kepsek}', '{nppy_kepsek}'].map(v => (
+          Variabel:{' '}
+          {['{nama_sekolah}', '{tahun_ajaran}'].map(v => (
             <code key={v} className="bg-gray-100 px-1 rounded mr-1">{v}</code>
           ))}
         </p>
         <textarea
-          rows={8}
+          rows={14}
           value={letterContent}
           onChange={e => setLetterContent(e.target.value)}
-          placeholder={`Yang bertanda tangan di bawah ini, Kepala {nama_sekolah}, menerangkan bahwa:\n\nNama   : {nama_siswa}\nNISN   : {nisn}\nKelas  : {kelas}\n\nadalah benar siswa/siswi yang {status} dari {nama_sekolah} pada Tahun Pelajaran 2024/2025.\n\nDemikian surat keterangan ini dibuat untuk dipergunakan sebagaimana mestinya.`}
-          className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          placeholder={`Menimbang  : 1. Bahwa setiap peserta didik kelas XII telah menyelesaikan proses\n                  pembelajaran dari semester 1 s.d. semester 6;\n               2. Bahwa peserta didik telah menyelesaikan kegiatan penilaian PSAJ,\n                  UKK dan Ujian Praktik Mata Pelajaran Tahun Ajaran {tahun_ajaran}\n                  {nama_sekolah};\n               3. Bahwa sehubungan dengan butir 1 dan 2 di atas, Kepala\n                  {nama_sekolah} memandang perlu menerbitkan Surat\n                  Keputusan Kelulusan peserta didik.\n\nMengingat  : 1. Peraturan Menteri Pendidikan, Kebudayaan, Riset, dan Teknologi\n                  Nomor 58 Tahun 2024 tentang Ijazah Jenjang Pendidikan Dasar\n                  dan Pendidikan Menengah;\n               2. Surat Edaran Sekretaris Jenderal ...\n\nMemperhatikan : Hasil Rapat Penegas Kelulusan {nama_sekolah}\n                   pada tanggal ...`}
+          className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y"
         />
       </div>
 
