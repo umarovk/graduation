@@ -256,6 +256,20 @@ export default function SchoolPage() {
           rows={14}
           value={letterContent}
           onChange={e => setLetterContent(e.target.value)}
+          onKeyDown={e => {
+            if (e.key === 'Tab') {
+              e.preventDefault()
+              const el = e.currentTarget
+              const start = el.selectionStart
+              const end = el.selectionEnd
+              const spaces = '   '
+              const next = letterContent.slice(0, start) + spaces + letterContent.slice(end)
+              setLetterContent(next)
+              requestAnimationFrame(() => {
+                el.selectionStart = el.selectionEnd = start + spaces.length
+              })
+            }
+          }}
           placeholder={`Menimbang  : 1. Bahwa setiap peserta didik kelas XII telah menyelesaikan proses\n                  pembelajaran dari semester 1 s.d. semester 6;\n               2. Bahwa peserta didik telah menyelesaikan kegiatan penilaian PSAJ,\n                  UKK dan Ujian Praktik Mata Pelajaran Tahun Ajaran {tahun_ajaran}\n                  {nama_sekolah};\n               3. Bahwa sehubungan dengan butir 1 dan 2 di atas, Kepala\n                  {nama_sekolah} memandang perlu menerbitkan Surat\n                  Keputusan Kelulusan peserta didik.\n\nMengingat  : 1. Peraturan Menteri Pendidikan, Kebudayaan, Riset, dan Teknologi\n                  Nomor 58 Tahun 2024 tentang Ijazah Jenjang Pendidikan Dasar\n                  dan Pendidikan Menengah;\n               2. Surat Edaran Sekretaris Jenderal ...\n\nMemperhatikan : Hasil Rapat Penegas Kelulusan {nama_sekolah}\n                   pada tanggal ...`}
           className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y"
         />

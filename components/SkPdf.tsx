@@ -11,7 +11,6 @@ import type { Student, SchoolSettings } from '@/lib/types'
 const F = {
   normal: 'Helvetica',
   bold: 'Helvetica-Bold',
-  mono: 'Courier',
 }
 
 const S = StyleSheet.create({
@@ -43,7 +42,7 @@ const S = StyleSheet.create({
 
   /* ─── isi ─── */
   opener: { marginBottom: 6 },
-  preamble: { fontFamily: F.mono, fontSize: 9, lineHeight: 1.5, marginBottom: 6 },
+  preamble: { fontFamily: F.normal, fontSize: 9, lineHeight: 1.5, marginBottom: 6 },
   memutuskan: { fontFamily: F.bold, textAlign: 'center', letterSpacing: 2, marginTop: 10, marginBottom: 8 },
   menetapkan: { fontFamily: F.bold, marginBottom: 4 },
 
@@ -88,7 +87,7 @@ export function SkPdf({ student, school }: Props) {
 
   return (
     <Document>
-      <Page size="A4" style={S.page}>
+      <Page size={[610, 936]} style={S.page}>
 
         {/* ── Kop Surat ── */}
         {school.letterhead_url ? (
@@ -184,6 +183,9 @@ export function SkPdf({ student, school }: Props) {
             perbaikan sebagaimana mestinya.
           </Text>
         </View>
+
+        {/* ── Spacer → signature always at bottom ── */}
+        <View style={{ flexGrow: 1 }} />
 
         {/* ── Tanda Tangan ── */}
         <View style={S.sigOuter}>
