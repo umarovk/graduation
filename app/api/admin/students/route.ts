@@ -8,20 +8,31 @@ export async function GET(request: NextRequest) {
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { searchParams } = new URL(request.url)
-  const search = searchParams.get('search') || ''
-  const page = parseInt(searchParams.get('page') || '1')
-  const limit = parseInt(searchParams.get('limit') || '20')
-  const offset = (page - 1) * limit
+
+  // Return distinct class list
+  if (searchParams.get('distinct') === 'class') {
+    const { data } = await supabase.from('students').select('class').not('class', 'is', null)
+    const classes = [...new Set((data || []).map(s => s.class).filter(Boolean))].sort()
+    return NextResponse.json({ classes })
+  }
+
+  const search      = searchParams.get('search') || ''
+  const classFilter = searchParams.get('class')  || ''
+  const limitParam  = searchParams.get('limit')  || '20'
+  const fetchAll    = limitParam === 'all'
+  const limit       = fetchAll ? 0 : Math.max(1, parseInt(limitParam))
+  const page        = Math.max(1, parseInt(searchParams.get('page') || '1'))
+  const offset      = (page - 1) * limit
 
   let query = supabase
     .from('students')
     .select('*', { count: 'exact' })
-    .order('name', { ascending: true })
-    .range(offset, offset + limit - 1)
+    .order('class', { ascending: true })
+    .order('name',  { ascending: true })
 
-  if (search) {
-    query = query.or(`name.ilike.%${search}%,nisn.ilike.%${search}%,nis.ilike.%${search}%`)
-  }
+  if (search)      query = query.or(`name.ilike.%${search}%,nisn.ilike.%${search}%,nis.ilike.%${search}%`)
+  if (classFilter) query = query.eq('class', classFilter)
+  if (!fetchAll)   query = query.range(offset, offset + limit - 1)
 
   const { data, error, count } = await query
 

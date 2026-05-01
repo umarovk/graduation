@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
     return {
       nisn: (s.nisn || '').trim(),
       nis: (s.nis || '').trim() || null,
+      exam_number: (s.nomor_ujian || s.exam_number || '').trim() || null,
       name: (s.nama || s.name || '').trim(),
       address: (s.alamat || s.address || '').trim() || null,
       date_of_birth: dob,

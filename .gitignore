@@ -36,6 +36,12 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Claude Code
+.claude/
+
+# empty artifact from folder move
+/grad-apps/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

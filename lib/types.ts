@@ -2,6 +2,7 @@ export interface Student {
   id: string
   nisn: string
   nis: string | null
+  exam_number: string | null
   name: string
   address: string | null
   date_of_birth: string
@@ -22,6 +23,7 @@ export interface SchoolSettings {
   city: string | null
   decision_date: string | null
   logo_url: string | null
+  school_photo_url: string | null
   letterhead_url: string | null
   principal_signature_url: string | null
   school_stamp_url: string | null

@@ -2,11 +2,13 @@
 
 import { useState, useEffect, useRef } from 'react'
 import type { SchoolSettings } from '@/lib/types'
+import RichTextEditor from '@/components/RichTextEditor'
 
-type UploadField = 'logo' | 'letterhead' | 'principal_signature' | 'school_stamp'
+type UploadField = 'logo' | 'school_photo' | 'letterhead' | 'principal_signature' | 'school_stamp'
 
 const uploadFields: { key: UploadField; label: string; desc: string }[] = [
   { key: 'logo', label: 'Logo Sekolah', desc: 'PNG/JPG, disarankan kotak (1:1), maks 2MB' },
+  { key: 'school_photo', label: 'Foto Sekolah', desc: 'PNG/JPG, tampil di halaman login siswa, maks 5MB' },
   { key: 'letterhead', label: 'Kop Surat', desc: 'PNG/JPG, lebar penuh, maks 5MB' },
   { key: 'principal_signature', label: 'Tanda Tangan Kepsek', desc: 'PNG transparan, maks 2MB' },
   { key: 'school_stamp', label: 'Stempel Sekolah', desc: 'PNG transparan, maks 2MB' },
@@ -27,7 +29,7 @@ export default function SchoolPage() {
   const [uploading, setUploading] = useState<UploadField | null>(null)
   const [toast, setToast] = useState('')
   const fileRefs = useRef<Record<UploadField, HTMLInputElement | null>>({
-    logo: null, letterhead: null, principal_signature: null, school_stamp: null,
+    logo: null, school_photo: null, letterhead: null, principal_signature: null, school_stamp: null,
   })
 
   function showToast(msg: string) {
@@ -252,27 +254,7 @@ export default function SchoolPage() {
             <code key={v} className="bg-gray-100 px-1 rounded mr-1">{v}</code>
           ))}
         </p>
-        <textarea
-          rows={14}
-          value={letterContent}
-          onChange={e => setLetterContent(e.target.value)}
-          onKeyDown={e => {
-            if (e.key === 'Tab') {
-              e.preventDefault()
-              const el = e.currentTarget
-              const start = el.selectionStart
-              const end = el.selectionEnd
-              const spaces = '   '
-              const next = letterContent.slice(0, start) + spaces + letterContent.slice(end)
-              setLetterContent(next)
-              requestAnimationFrame(() => {
-                el.selectionStart = el.selectionEnd = start + spaces.length
-              })
-            }
-          }}
-          placeholder={`Menimbang  : 1. Bahwa setiap peserta didik kelas XII telah menyelesaikan proses\n                  pembelajaran dari semester 1 s.d. semester 6;\n               2. Bahwa peserta didik telah menyelesaikan kegiatan penilaian PSAJ,\n                  UKK dan Ujian Praktik Mata Pelajaran Tahun Ajaran {tahun_ajaran}\n                  {nama_sekolah};\n               3. Bahwa sehubungan dengan butir 1 dan 2 di atas, Kepala\n                  {nama_sekolah} memandang perlu menerbitkan Surat\n                  Keputusan Kelulusan peserta didik.\n\nMengingat  : 1. Peraturan Menteri Pendidikan, Kebudayaan, Riset, dan Teknologi\n                  Nomor 58 Tahun 2024 tentang Ijazah Jenjang Pendidikan Dasar\n                  dan Pendidikan Menengah;\n               2. Surat Edaran Sekretaris Jenderal ...\n\nMemperhatikan : Hasil Rapat Penegas Kelulusan {nama_sekolah}\n                   pada tanggal ...`}
-          className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y"
-        />
+        <RichTextEditor value={letterContent} onChange={setLetterContent} />
       </div>
 
       <button

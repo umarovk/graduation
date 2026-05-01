@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
   const { data: student, error } = await supabase
     .from('students')
-    .select('id, name, nisn, nis, class, status, date_of_birth')
+    .select('id, name, nisn, nis, exam_number, class, status, date_of_birth, address')
     .eq('nisn', nisn.trim())
     .eq('date_of_birth', formattedDob)
     .single()
