@@ -178,13 +178,16 @@ export default function HomePage() {
 
           {showCountdown ? (
             <div className="text-center">
-              <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-5">
-                <svg className="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              {/* Toga icon */}
+              <div className="flex justify-center mb-4">
+                <svg viewBox="0 0 100 80" className="w-20 h-20 text-emerald-500" fill="currentColor" aria-hidden="true">
+                  <polygon points="50,4 90,26 50,48 10,26" opacity="0.9"/>
+                  <rect x="30" y="45" width="40" height="14" rx="3" opacity="0.8"/>
+                  <path d="M90,26 C98,38 96,54 94,66" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none"/>
+                  <rect x="88" y="64" width="10" height="13" rx="2" opacity="0.7"/>
                 </svg>
               </div>
-              <h2 className="text-xl font-bold text-gray-900">Pengumuman Segera Hadir</h2>
+              <h2 className="text-xl font-bold text-gray-900">Pengumuman Kelulusan Segera Hadir</h2>
               <p className="text-gray-400 text-sm mt-2">
                 Akan dibuka pada{' '}
                 <span className="font-semibold text-emerald-600">
