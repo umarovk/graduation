@@ -156,7 +156,7 @@ export default function HomePage() {
             {school?.school_name || 'Sekolah Anda'}
           </h2>
           {school?.school_year && (
-            <p className="text-emerald-200 text-sm mt-1.5">Tahun Pelajaran {school.school_year}</p>
+            <p className="text-emerald-200 text-sm mt-1.5">Tahun Ajaran {school.school_year}</p>
           )}
         </div>
       </div>
@@ -172,7 +172,7 @@ export default function HomePage() {
               {school?.school_name || 'Pengumuman Kelulusan'}
             </h1>
             {school?.school_year && (
-              <p className="text-emerald-600 text-sm mt-1">Tahun Pelajaran {school.school_year}</p>
+              <p className="text-emerald-600 text-sm mt-1">Tahun Ajaran {school.school_year}</p>
             )}
           </div>
 
