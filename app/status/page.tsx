@@ -368,24 +368,24 @@ export default function StatusPage() {
                   <p className="mt-3 mb-0.5 text-gray-600">Kepala,</p>
                   <p className="text-gray-600 mb-2">{schoolName}</p>
 
-                  <div className="relative h-16 mb-1">
+                  <div className="relative h-28 -mt-10 z-10 pointer-events-none">
                     {school.principal_signature_url && (
                       <img src={school.principal_signature_url} alt="Tanda Tangan"
-                        className="absolute left-0 top-1 h-12 object-contain" />
+                        className="absolute -left-5 top-0 h-24 object-contain" />
                     )}
                     {school.school_stamp_url && (
                       <img src={school.school_stamp_url} alt="Stempel"
-                        className="absolute left-5 top-0 h-16 w-16 object-contain opacity-60" />
+                        className="absolute left-5 top-0 h-28 w-28 object-contain opacity-60" />
                     )}
                   </div>
 
                   {school.principal_name && (
-                    <>
+                    <div className="-mt-8">
                       <p className="font-bold underline">{school.principal_name}</p>
                       {school.principal_nppy && (
                         <p className="text-gray-500 mt-0.5">NPPY. {school.principal_nppy}</p>
                       )}
-                    </>
+                    </div>
                   )}
                 </div>
               </div>
